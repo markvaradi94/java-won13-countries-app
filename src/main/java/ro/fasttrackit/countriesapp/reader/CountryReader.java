@@ -3,6 +3,7 @@ package ro.fasttrackit.countriesapp.reader;
 import org.springframework.stereotype.Component;
 import ro.fasttrackit.countriesapp.config.CountryConfig;
 import ro.fasttrackit.countriesapp.exception.ResourceReadingException;
+import ro.fasttrackit.countriesapp.model.City;
 import ro.fasttrackit.countriesapp.model.Continent;
 import ro.fasttrackit.countriesapp.model.Country;
 
@@ -20,7 +21,7 @@ public class CountryReader {
         this.config = config;
     }
 
-    private static int ID_COUNTER = 1;
+    private static long ID_COUNTER = 1;
 
     public List<Country> readCountries() {
         try (BufferedReader reader = new BufferedReader(new FileReader(config.filePath()))) {
@@ -34,14 +35,18 @@ public class CountryReader {
 
     private Country mapToCountry(String line) {
         String[] tokens = line.split("[|]");
+        long id = ID_COUNTER++;
         return Country.builder()
-                .id(ID_COUNTER++)
+                .id(id)
                 .name(tokens[0])
-                .capital(tokens[1])
+                .capital(City.builder()
+                        .name(tokens[1])
+                        .build())
                 .population(Long.parseLong(tokens[2]))
                 .area(Long.parseLong(tokens[3]))
                 .continent(Continent.of(tokens[4]))
-                .neighbours(tokens.length > 5 ? extractNeighbours(tokens[5]) : List.of())
+//                .neighbours(tokens.length > 5 ? extractNeighbours(tokens[5]) : List.of())
+                .neighbours(List.of())
                 .build();
     }
 

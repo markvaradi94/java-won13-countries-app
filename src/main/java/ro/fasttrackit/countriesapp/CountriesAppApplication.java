@@ -6,7 +6,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import ro.fasttrackit.countriesapp.config.CountryConfig;
 import ro.fasttrackit.countriesapp.service.CountryService;
 
 @SpringBootApplication
